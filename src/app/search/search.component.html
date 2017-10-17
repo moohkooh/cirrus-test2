@@ -1,0 +1,37 @@
+<h1> Search after Something</h1>
+<div>
+  <form [formGroup]="searchForm" novalidate>
+    <input #searchInput [(ngModel)]='fieldValue' type="text" (input)='search(searchInput.value)' formControlName="searchField">
+    <a *ngIf='searched && !resultList.length' href='#' (click)='addValue(searchInput.value)' style='text-decoration:none;'>Hinzufügen</a>
+    <div *ngIf='index >= 0'>
+      <a href='#' (click)='save()'> Speicher </a>
+      <a href='#' (click)='abort()'> Abbrechen </a>
+    </div>
+    <input type="checkbox" [checked]="searchInGithub" (change)="searchInGithub = !searchInGithub" formControlName='searchInGithub'> Search in Githab
+    <i *ngIf='searchInProgress' class='searchInProgress'></i>
+  </form>
+</div>
+
+<div>
+  <ul>
+    <li *ngFor="let result of resultList">
+      <span>
+        <a href='#' (click)='edit(result)'>
+          {{result}}
+        </a>
+        <a href='#' (click)="delete(result)">
+          <i class="deleteIcon"></i>
+        </a>
+      </span>
+    </li>
+  </ul>
+
+  <span *ngIf='searched && resultList.length === 0'>
+    Keine Einträge gefunden
+    <a href='#' (click)='showAll()' style='text-decoration:none;'>Alle Anzeigen</a>
+    oder
+    <a href='#' (click)='addValue(searchInput.value)' style='text-decoration:none;'>Hinzufügen</a>
+  </span>
+
+  <span *ngIf='message.length > 0'>{{message}}</span>
+</div>

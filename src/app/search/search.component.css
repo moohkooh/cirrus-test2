@@ -1,0 +1,16 @@
+ul {
+    list-style: square;
+    color: blue;
+    list-style-image: url('https://png.icons8.com/approve/ios11/30');
+}
+
+.deleteIcon {
+    background-image: url('https://png.icons8.com/delete/p1em/16');
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+}
+
+.searchInProgress {
+    background-image: url('../../assets/166.gif')
+}
