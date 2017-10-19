@@ -1,11 +1,17 @@
 sudo: required
 
 before_script:
-  - npm install -g @angular/cli
-  - npm install
+  npm install -g @angular/cli
+  npm install
 
 script:
-  - ng build --prod
+  ng build --prod
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: abd0d268-2b64-44b6-b64c-c1876f958c3
+
 
 notification: 
   on_failure: change
