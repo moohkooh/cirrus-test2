@@ -11,7 +11,7 @@ deploy:
   provider: heroku
   api_key:
     secure: abd0d268-2b64-44b6-b64c-c1876f958c3
-
+    app: mooh-angular
 
 notification: 
   on_failure: change
