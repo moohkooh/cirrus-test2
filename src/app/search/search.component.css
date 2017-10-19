@@ -2,6 +2,7 @@ ul {
     list-style: square;
     color: blue;
     list-style-image: url('https://png.icons8.com/approve/ios11/30');
+   
 }
 
 .deleteIcon {

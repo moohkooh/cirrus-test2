@@ -1,6 +1,8 @@
+import { Subject } from 'rxjs/Subject';
 import { GithubSearchService } from './github.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-search',
@@ -9,114 +11,195 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class SearchComponent implements OnInit {
 
+  // Raw Data list
   rawData: string[];
-  resultList: string[];
+
+  // Search Result
+  searchObserver: Subject<string[]>;
+
+  // Form
   searchForm: FormGroup;
 
+  // searched started
   searched: boolean;
+  // user message
   message: string;
 
+  // field value (search value)
   fieldValue: string;
-  index: number;
 
+  // index of found value
+  foundIndex: number;
+
+  // if serach is in progress (to avoid multi search)
   searchInProgress: boolean;
+
+  // should start github search
   searchInGithub: boolean;
 
   constructor(private githubService: GithubSearchService) {
     this.rawData = [
-      'Abc', 'Def', 'ghi',
+      'JavaScript', 'TypeScript', 'Java', 'C', 'C++'
     ];
 
-    this.resultList = [];
+    // serached started once?
     this.searched = false;
+
+    // simple user message
     this.message = '';
+
+    // field value
     this.fieldValue = '';
-    this.index = -1;
+
+    // index for editing
+    this.foundIndex = -1;
+
+    // github search in progress
     this.searchInProgress = false;
+
+    // if they should search in github
     this.searchInGithub = false;
+
+    this.searchObserver = new Subject();
   }
 
   ngOnInit() {
+    // creating reactive form group
     this.searchForm = new FormGroup({
       searchField: new FormControl(''),
       searchInGithub: new FormControl(false)
     });
+
+    // reactive handlig if github search is in progress
+    this.githubService.searching.subscribe((searchInProgress: boolean) => {
+      this.searchInProgress = searchInProgress;
+    });
   }
 
   search(searchValue: string) {
+    // handing searched
     this.searched = true;
-    if (this.index > -1) { return; }
-    if (searchValue.length === 0) { return; }
-    if (searchValue === '*') { return searchValue = ''; }
-    console.log('Search Value', searchValue);
-    this.resultList = this.rawData.filter(value => value.toUpperCase().indexOf(searchValue.toUpperCase()) >= 0);
-    console.dir('results ', this.resultList);
+    // starting if we are not in edit mode
+    if (this.foundIndex > -1) { return; }
+    // starting after 2 characters
+    if (searchValue.length < 2 && searchValue !== '*') { return; }
+    // showing all values
+    if (searchValue === '*') { searchValue = ''; }
 
+    // Filtering values
+    console.log('Search Value', searchValue);
+    const value =  this.rawData.filter(value => value.toUpperCase().indexOf(searchValue.toUpperCase()) >= 0);
+    this.searchObserver.next(value);
+
+    // Starting search in github
     this.searchInGit(searchValue);
   }
 
+  /**
+   * adding given value into the rawData field
+   */
   addValue(searchValue: string) {
+    // adding value to list
     this.rawData.push(searchValue);
-    searchValue = '';
+    // clear up
+    this.clearAdd();
+
+    // show all
     this.showAll();
+
+    // show message
     this.message = `${searchValue} hinzugefügt`;
     this.showMessage();
   }
 
+  /**
+   * editing given value
+   * @param value
+   */
   edit(value: string) {
-    const index = this.rawData.findIndex(v => v === value);
-    if (index >= 0) {
-      this.index = index;
-      this.fieldValue = value;
-    } else {
-      this.message = 'Eintrag nicht gefunden';
-      this.showMessage();
-    }
+    // notice which entry it will be move inside rawData Array
+    this.foundIndex = this.rawData.findIndex(v => v === value);
+
+    // setting fieldValue to the edit - value and showing message
+    this.foundIndex >= 0 ? this.fieldValue = value : this.showMessage('Eintrag nicht gefunden');
   }
 
+  /**
+   * Searching given value insisde our raw-data and deleting it
+   * @param value
+   */
   delete(value: string) {
+    // find index
     const index = this.rawData.findIndex(v => v === value);
+    // removing value
     this.rawData.splice(index, 1);
-    this.resultList = this.rawData;
+    // updating resutl lsit
+    this.showAll();
   }
 
+  /**
+   * Updating exist value inside the raw array
+   */
   save() {
-    this.rawData[this.index] = this.fieldValue;
-    this.message = 'Eintrage geändert';
-    this.resultList = this.rawData;
-    this.showMessage();
+    // replace value
+    this.rawData[this.foundIndex] = this.fieldValue;
+    // update of search list
+    this.showAll();
+
+    // Showing message
+    this.showMessage('Eintrage geändert');
+
+    // clear up
     this.clearAdd();
   }
 
+  /**
+   * aborting editing
+   */
   abort() {
     this.clearAdd();
   }
 
-  showAll() {
-    this.resultList = this.rawData;
+  /**
+   * show all values
+   */
+  showAll(result: string[] = null) {
+    this.searchObserver.next(result !== null ? result : this.rawData);
   }
 
+  /**
+   * clearing foundIndex and fieldValue
+   */
   private clearAdd() {
-    this.index = -1;
+    this.foundIndex = -1;
     this.fieldValue = '';
   }
 
-  private showMessage() {
+  /**
+   * showing user message. Message will removed after 2 seconds
+   */
+  private showMessage(msg: string = '') {
+    this.message = msg;
     setTimeout(() => {
       this.message = '';
     }, 2000);
   }
 
+  /**
+   * starting search on github, if searchGit is stelected
+   * @param searchValue
+   */
   private searchInGit(searchValue: string) {
-    if (!this.searchInGithub) return;
+    // starting github search if its checked
+    if (!this.searchInGithub) { return; }
+
+    // Starting search if searchString is more then 2 character and search is not in progress
     if (searchValue.length > 2 && !this.searchInProgress) {
-      this.searchInProgress = true;
+
+      // staring search
       this.githubService.search(searchValue).then((result: any) => {
-        this.searchInProgress = false;
-        result.items.forEach(element => {
-          this.rawData.push(element.name);
-          this.resultList = this.rawData;
-        });
+        const githubSearchResult = this.rawData.concat(_.map(result.items, 'name'));
+        this.showAll(githubSearchResult);
       }).catch((error: any) => {
         throw new Error(error);
       });
