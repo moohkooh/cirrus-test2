@@ -12,10 +12,10 @@
     "start": "ng serve",
     "build": "ng build",
     "build:prod": "ng build --aot -prod",
-    "test": "ng test",
+    "test": "nyc ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "xposttest": "nyc report --reporter=json && codecov -f coverage/*.json -t 6a448bb1-3701-453c-97e9-1a8d12381cdb",
+    "posttest": "nyc report --reporter=json && codecov -f coverage/*.json -t 6a448bb1-3701-453c-97e9-1a8d12381cdb",
     "start:server": "node src/server/server.js"
   },
   "private": true,
