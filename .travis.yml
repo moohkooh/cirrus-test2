@@ -1,6 +1,9 @@
-language: node_js
-sudo: required
-cache: yarn
+language: 
+  node_js
+sudo: 
+  required
+cache: 
+  yarn
 yarn: true
 
 directories:
