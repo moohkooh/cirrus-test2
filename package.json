@@ -15,7 +15,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "posttest": "nyc report --reporter=json && codecov -f coverage/*.json -t 6a448bb1-3701-453c-97e9-1a8d12381cdb"
+    "xposttest": "nyc report --reporter=json && codecov -f coverage/*.json -t 6a448bb1-3701-453c-97e9-1a8d12381cdb"
   },
   "private": true,
   "dependencies": {
@@ -47,6 +47,7 @@
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
     "karma-cli": "~1.0.1",
+    "karma-coverage": "^1.1.1",
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
