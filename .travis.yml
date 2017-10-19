@@ -6,17 +6,19 @@ yarn: true
 directories:
     - node_modules
 
-node_js:
-  - 7
+node_js: 
   - 8
+
+ addons:
+  - chrome: stabl
 
 before_script:
   - yarn global add @angular/cli
   - yarn
 
 script:
-  - ng build --aot -prod
-  - ng test
+  - yarn build:prod 
+  - yarn test
 
 deploy:
   provider: heroku
