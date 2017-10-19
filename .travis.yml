@@ -1,11 +1,16 @@
 sudo: required
+cache: yarn
+yarn: true
+
+directories:
+    - node_modules
 
 before_script:
-  npm install -g @angular/cli
-  npm install
+  - yarn global add @angular/cli
+  - yarn
 
 script:
-  ng build --aot -prod
+  - ng build --aot -prod
 
 deploy:
   provider: heroku
