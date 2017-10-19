@@ -1,3 +1,4 @@
-before_script: 
+before_script:
+- npm install -g angular-cli
 - npm install
-- ng build --aot
+- ng build --aot 
