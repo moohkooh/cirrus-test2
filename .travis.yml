@@ -18,14 +18,20 @@ before_script:
   - yarn global add nyc
   - yarn
 
-script:
-  - yarn build:prod 
+stage: testing
+script: 
   - yarn test
 
-deploy:
+stage: building
+script:
+  - yarn build:prod 
+
+
+stage: deploy to production
+deploy: 
   provider: heroku
   api_key:
-    secure: abd0d268-2b64-44b6-b64c-c1876f958c3d
+    secure: &HEROKU_API_KEY
     app: mooh-angular
 
 notification: 
