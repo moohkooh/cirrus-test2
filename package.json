@@ -2,6 +2,11 @@
   "name": "freelancer",
   "version": "0.0.0",
   "license": "MIT",
+  "main": "server/server.js",
+  "engines": {
+    "node": "v8.6.0",
+    "npm": "3.10.9"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -36,6 +41,7 @@
     "@types/node": "~6.0.60",
     "codecov": "^1.0.1",
     "codelyzer": "~3.1.1",
+    "express": "^4.16.2",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",
     "karma": "^1.7.1",
