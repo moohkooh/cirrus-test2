@@ -27,6 +27,7 @@
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
+    "codecov": "^1.0.1",
     "nyc": "^6.4.4",
     "@angular/cli": "1.4.1",
     "@angular/compiler-cli": "^4.2.4",

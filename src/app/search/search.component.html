@@ -1,7 +1,7 @@
 <h1> Search after programming language</h1>
 <div>
   <form [formGroup]="searchForm" novalidate>
-    <input #searchInput [(ngModel)]='fieldValue' type="text" (input)='search(searchInput.value)' formControlName="searchField">
+    <input id="searchInput" #searchInput [(ngModel)]='fieldValue' type="text" (input)='search(searchInput.value)' formControlName="searchField">
     <button *ngIf='searched && (searchObserver | async)?.length > 0 ' href='#' (click)='addValue(searchInput.value)' style='text-decoration:none;'>Hinzufügen</button>
 
     <div *ngIf='foundIndex >= 0'>
@@ -15,8 +15,7 @@
 
 <div>
   <ul>
-    <li *ngFor="let result of searchObserver | async">
-
+    <li *ngFor="let result of searchObserver | async" class="li_searchResult">
       <span>
         <a href='#' (click)='edit(result)'>{{result}}</a>
         <a href='#' (click)="delete(result)">

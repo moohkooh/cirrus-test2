@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SearchComponent } from './search.component';
+import { By } from 'protractor';
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
@@ -26,5 +27,9 @@ describe('SearchComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('search after Javascript', () => {
+    const value = 'Javascript';
   });
 });
