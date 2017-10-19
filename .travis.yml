@@ -1,4 +1,12 @@
+sudo: required
+
 before_script:
-- npm install -g angular-cli
-- npm install
-- ng build --aot 
+  - npm install -g angular-cli
+  - npm install
+
+script:
+  - ng build --prod
+
+notification: 
+  on_failure: change
+  on_success: change
