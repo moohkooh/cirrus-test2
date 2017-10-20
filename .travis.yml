@@ -30,7 +30,7 @@ script:
 stage: deploy to production
 deploy: 
   provider: heroku
-  api_key: $HEROKU_API_KEY
+  api_key: $HEROKU_API_KEY_BRANCH_MATERIAL
   app: "mooh-angular-matieral"
   skip_cleanup: true
 
