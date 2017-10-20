@@ -5,6 +5,10 @@ ul {
    
 }
 
+h1 {
+    color: skyblue;
+}
+
 .deleteIcon {
     background-image: url('https://png.icons8.com/delete/p1em/16');
     display: inline-block;
