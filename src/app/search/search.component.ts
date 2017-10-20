@@ -1,8 +1,10 @@
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 import { GithubSearchService } from './github.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import * as _ from 'lodash';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-search',
@@ -10,7 +12,6 @@ import * as _ from 'lodash';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-
   // Raw Data list
   rawData: string[];
 
@@ -37,7 +38,11 @@ export class SearchComponent implements OnInit {
   // should start github search
   searchInGithub: boolean;
 
-  constructor(private githubService: GithubSearchService) {
+  // Git Search in Process
+  searchInProgress$: BehaviorSubject<boolean>;
+
+  constructor(private githubService: GithubSearchService,
+    public snackBar: MatSnackBar) {
     this.rawData = [
       'JavaScript', 'TypeScript', 'Java', 'C', 'C++'
     ];
@@ -74,6 +79,7 @@ export class SearchComponent implements OnInit {
     this.githubService.searching.subscribe((searchInProgress: boolean) => {
       this.searchInProgress = searchInProgress;
     });
+    this.searchInProgress$ = this.githubService.searching;
   }
 
   search(searchValue: string) {
@@ -88,11 +94,15 @@ export class SearchComponent implements OnInit {
 
     // Filtering values
     console.log('Search Value', searchValue);
-    const value =  this.rawData.filter(value => value.toUpperCase().indexOf(searchValue.toUpperCase()) >= 0);
+    const value = this.rawData.filter(value => value.toUpperCase().indexOf(searchValue.toUpperCase()) >= 0);
     this.searchObserver.next(value);
 
-    // Starting search in github
-    this.searchInGit(searchValue);
+    try {
+      // Starting search in github
+      this.searchInGit(searchValue, value);
+    } catch (e) {
+      this.showMessage('Timeout');
+    }
   }
 
   /**
@@ -180,16 +190,17 @@ export class SearchComponent implements OnInit {
    */
   private showMessage(msg: string = '') {
     this.message = msg;
-    setTimeout(() => {
-      this.message = '';
-    }, 2000);
+
+    this.snackBar.open(msg, '', {
+      duration: 2000,
+    });
   }
 
   /**
    * starting search on github, if searchGit is stelected
    * @param searchValue
    */
-  private searchInGit(searchValue: string) {
+  private searchInGit(searchValue: string, resultList: string[]) {
     // starting github search if its checked
     if (!this.searchInGithub) { return; }
 
@@ -197,11 +208,13 @@ export class SearchComponent implements OnInit {
     if (searchValue.length > 2 && !this.searchInProgress) {
 
       // staring search
-      this.githubService.search(searchValue).then((result: any) => {
-        const githubSearchResult = this.rawData.concat(_.map(result.items, 'name'));
+      return this.githubService.search(searchValue).then((result: any) => {
+        const githubResult = _.map(result.items, 'name');
+        const githubSearchResult = resultList.concat(githubResult);
         this.showAll(githubSearchResult);
       }).catch((error: any) => {
-        throw new Error(error);
+        this.showMessage(`Github request error message ${error.statusText}`);
+        throw new Error(error.statusText);
       });
     }
   }

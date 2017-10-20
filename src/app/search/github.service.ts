@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class GithubSearchService {
 
-    githubUrl = "https://api.github.com/search/repositories?";
-    searching:Subject<boolean>
+    githubUrl = 'https://api.github.com/search/repositories?';
+    searching: BehaviorSubject<boolean>;
 
     /**
      * creating subject
-     * @param http 
+     * @param http Http
      */
     constructor(private http: Http) {
-        this.searching = new Subject();
+        this.searching = new BehaviorSubject(false);
     }
 
     /**
      * searching in github
-     * @param query 
+     * @param query
      */
     search(query: string): Promise<any> {
         return new Promise((resolve, reject) => {
@@ -27,7 +27,10 @@ export class GithubSearchService {
                 const result = data.json();
                 this.searching.next(false);
                 resolve(result);
-            }); 
+            }, (error: any) => {
+                this.searching.next(false);
+                reject(error);
+            });
         });
     }
 }

@@ -1,34 +1,51 @@
-<h1> Search after programming language</h1>
 <div>
-  <form [formGroup]="searchForm" novalidate>
-    <input id="searchInput" #searchInput [(ngModel)]='fieldValue' type="text" (input)='search(searchInput.value)' formControlName="searchField">
-    <button *ngIf='searched && (searchObserver | async)?.length > 0 ' href='#' (click)='addValue(searchInput.value)' style='text-decoration:none;'>Hinzufügen</button>
+  <mat-card>
+    <form [formGroup]="searchForm" novalidate>
+      <mat-card-title>Search after programming language</mat-card-title>
 
-    <div *ngIf='foundIndex >= 0'>
-      <a href='#' (click)='save()'>Speicher </a> | <a href='#' (click)='abort()'>Abbrechen </a>
-    </div>
+      <mat-card-content>
+        <mat-form-field class="example-full-width">
+          <input matInput [(ngModel)]='fieldValue' #searchInput placeholder="Search" (input)='search(searchInput.value)' id="searchInput"
+            formControlName="searchField">
+        </mat-form-field>
 
-    <input type="checkbox" [checked]="searchInGithub" (change)="searchInGithub = !searchInGithub" formControlName='searchInGithub'> Search in Githab
-    <i *ngIf='searchInProgress' class='searchInProgress'></i>
-  </form>
+        <button mat-raised-button *ngIf='searched && (searchObserver | async)?.length == 0 ' href='#' (click)='addValue(searchInput.value)'
+          style='text-decoration:none;'>Hinzufügen</button>
+
+        <div *ngIf='foundIndex >= 0'>
+          <a href='#' mat-raised-button (click)='save()'>Speicher </a> |
+          <a href='#' mat-raised-button (click)='abort()'>Abbrechen </a>
+        </div>
+
+        <mat-checkbox type="checkbox" (change)="searchInGithub = !searchInGithub" formControlName='searchInGithub'> Search in Githab</mat-checkbox>
+      </mat-card-content>
+      <mat-card-content>
+        <mat-progress-bar *ngIf="searchInProgress$ | async" mode="indeterminate"></mat-progress-bar>
+      </mat-card-content>
+    </form>
+  </mat-card>
 </div>
 
-<div>
-  <ul>
-    <li *ngFor="let result of searchObserver | async" class="li_searchResult">
-      <span>
-        <a href='#' (click)='edit(result)'>{{result}}</a>
-        <a href='#' (click)="delete(result)">
-          <i class="deleteIcon"></i>
-        </a>
-      </span>
-    </li>
-  </ul>
 
-  <span *ngIf='searched && (searchObserver | async)?.length === 0'>
-    Keine Einträge gefunden
-    <a href='#' (click)='showAll()' style='text-decoration:none;'>Alle Anzeigen</a>
-  </span>
+<mat-card >
+  <mat-card-title>Search Result</mat-card-title>
+  <mat-card-subtitle>Amount: {{(searchObserver|async)?.length}}</mat-card-subtitle>
+  
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item *ngFor="let result of searchObserver | async" class="li_searchResult">
+        <span>
+          <a href='#' (click)='edit(result)'>{{result}}</a>
+          <a href='#' (click)="delete(result)">
+            <i class="deleteIcon"></i>
+          </a>
+        </span>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
 
-  <span *ngIf='message.length > 0'>{{message}}</span>
-</div>
+</mat-card>
+
+<mat-error *ngIf="searched && (searchObserver|async)?.length==0">
+  <a href='#' (click)='showAll()' style='text-decoration:none;'>Alle Anzeigen</a>
+</mat-error>
