@@ -9,6 +9,19 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
+  <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyAYPKeOLk1q0P7W2f5Fr-AoOOUB2k5YkHY",
+      authDomain: "mooh-angular.firebaseapp.com",
+      databaseURL: "https://mooh-angular.firebaseio.com",
+      projectId: "mooh-angular",
+      storageBucket: "",
+      messagingSenderId: "1096923868935"
+    };
+    firebase.initializeApp(config);
+  </script>
   <app-root></app-root>
 </body>
 </html>
