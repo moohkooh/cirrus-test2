@@ -20,8 +20,6 @@ before_script:
 
 script: 
   - yarn test
-
-script:
   - yarn build:prod 
 
 deploy: 
