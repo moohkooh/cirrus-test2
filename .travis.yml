@@ -28,17 +28,18 @@ before_deploy:
   - cp ../src/server/* .
 
 deploy: 
-  provider: heroku
-  api_key: 
-    development: $HEROKU_API_KEY_BRANCH_MATERIAL
-    productive: HEROKU_API_KEY
-  app: 
-    development: 'mooh-angular-material'
-    productive: 'mooh-angular'
-  branches:
-    development: 'material-design'
-    productive: 'master'
-  skip_cleanup: true
+  - provider: heroku
+    api_key: $HEROKU_API_KEY
+    app:  'mooh-angular'
+    on: 
+      branch: 'master'
+    skip_cleanup: true
+  - provider: heroku
+    api_key: $HEROKU_API_KEY_BRANCH_MATERIAL
+    app:  'mooh-angular-material'
+    on: 
+      branch: 'material-design'
+    skip_cleanup: true
 
 notification: 
   on_failure: change
