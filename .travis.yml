@@ -24,8 +24,9 @@ script:
 
 before_deploy:
   - cd dist
-  - yarn add expres
-  - cp ../src/server/* .
+  - cp ../package.json .
+  - yarn
+  - cp ../src/server .
 
 deploy: 
   - provider: heroku
