@@ -23,10 +23,8 @@ script:
   - yarn build:prod 
 
 before_deploy:
-  - cd dist
-  - cp ../package.json .
+  - sh build/before-deploy.sh
   - yarn
-  - cp ../src/server .
 
 deploy: 
   - provider: heroku
