@@ -18,16 +18,12 @@ before_script:
   - yarn global add nyc
   - yarn
 
-stage: testing
 script: 
   - yarn test
 
-stage: building
 script:
   - yarn build:prod 
 
-
-stage: deploy to production
 deploy: 
   provider: heroku
   api_key: $HEROKU_API_KEY_BRANCH_MATERIAL
