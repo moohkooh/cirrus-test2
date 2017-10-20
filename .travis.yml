@@ -22,10 +22,15 @@ script:
   - yarn test
   - yarn build:prod 
 
+before_deploy:
+  - cd dist
+  - yarn add expres
+  - cp ../src/server/* .
+
 deploy: 
   provider: heroku
   api_key: $HEROKU_API_KEY_BRANCH_MATERIAL
-  app: "mooh-angular-material"
+  app: 'mooh-angular-material'
   skip_cleanup: true
 
 notification: 
