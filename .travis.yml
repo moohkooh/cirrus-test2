@@ -24,7 +24,7 @@ script:
 
 before_deploy:
   - sh build/before-deploy.sh
-  - yarn
+  - cd build
 
 deploy: 
   - provider: heroku
