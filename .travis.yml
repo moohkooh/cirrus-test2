@@ -17,13 +17,14 @@ before_script:
   - yarn global add codecov
   - yarn global add nyc
   - yarn
+  - mkdir build
 
 script: 
   - yarn test
   - yarn build:prod 
 
+
 before_deploy:
-  - mkdir build
   - cd build
   - cp -R ../dist .
   - cp ../package.json .
