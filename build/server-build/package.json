@@ -1,0 +1,19 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "express server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "express",
+    "heroku"
+  ],
+  "author": "Mustafa Serkan Dokuzcan",
+  "license": "ISC",
+  "dependencies": {
+    "node-minify": "^2.4.0"
+  }
+}

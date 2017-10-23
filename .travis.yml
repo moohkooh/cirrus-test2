@@ -16,15 +16,19 @@ before_script:
   - yarn global add @angular/cli
   - yarn global add codecov
   - yarn global add nyc
-  - yarn
+  - yarn 
 
 script: 
   - yarn test
   - yarn build:prod 
+  - yarn install:server
+  - yarn build:server
 
 before_deploy:
-  - sh build/before-deploy.sh
-  - yarn
+  - mkdir prod
+  - cd prod
+  - cp -R ../dist/* .
+  - ls -lah
 
 deploy: 
   - provider: heroku
