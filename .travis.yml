@@ -23,7 +23,7 @@ script:
   - yarn build:prod 
 
 before_deploy:
-  - mdkir build
+  - mkdir build
   - cd build
   - cp -R ../dist .
   - cp ../package.json .
