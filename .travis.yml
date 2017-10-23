@@ -26,7 +26,7 @@ before_deploy:
   - cd dist
   - cp ../package.json .
   - yarn
-  - cp ../src/server .
+  - cp -R ../src/server .
 
 deploy: 
   - provider: heroku
