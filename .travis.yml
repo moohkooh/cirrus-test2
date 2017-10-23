@@ -27,8 +27,7 @@ script:
 before_deploy:
   - mkdir prod
   - cd prod
-  - cp -R ../dist .
-  - cp -R ../src/server .
+  - cp -R ../dist/* .
 
 deploy: 
   - provider: heroku

@@ -9,6 +9,7 @@
 /node_modules
 src/server/node_modules
 build/server-build/node_modules
+prod
 
 # IDEs and editors
 /.idea
