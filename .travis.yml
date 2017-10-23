@@ -28,6 +28,7 @@ before_deploy:
   - mkdir prod
   - cd prod
   - cp -R ../dist/* .
+  - ls -lah
 
 deploy: 
   - provider: heroku
