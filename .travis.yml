@@ -16,12 +16,12 @@ before_script:
   - yarn global add @angular/cli
   - yarn global add codecov
   - yarn global add nyc
-  - yarn install:server
   - yarn 
 
 script: 
   - yarn test
   - yarn build:prod 
+  - yarn install:server
   - yarn build:server
 
 before_deploy:
