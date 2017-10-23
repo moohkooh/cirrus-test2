@@ -16,8 +16,7 @@ before_script:
   - yarn global add @angular/cli
   - yarn global add codecov
   - yarn global add nyc
-  - yarn
-  - mkdir build
+  - yarn 
 
 script: 
   - yarn test
@@ -25,7 +24,8 @@ script:
 
 
 before_deploy:
-  - cd build
+  - mkdir prod
+  - cd prod
   - cp -R ../dist .
   - cp ../package.json .
   - yarn
