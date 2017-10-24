@@ -1,10 +1,11 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
-import { GithubSearchService } from './search/github.service';
-import { SearchComponent } from './search/search.component';
-import { TestBed, async } from '@angular/core/testing';
-import { AppComponent } from './app.component';
+import { GithubSearchService } from '../../app/search/github.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { SearchComponent } from '../../app/search/search.component';
+import { By } from 'protractor';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -38,10 +39,13 @@ import {
   MatStepperModule,
 } from '@angular/material';
 
-describe('AppComponent', () => {
+describe('SearchComponent', () => {
+  let component: SearchComponent;
+  let fixture: ComponentFixture<SearchComponent>;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AppComponent, SearchComponent],
+      declarations: [ SearchComponent ],
       imports: [
         BrowserAnimationsModule,
         HttpModule,
@@ -80,16 +84,21 @@ describe('AppComponent', () => {
         MatTooltipModule
       ],
       providers: [GithubSearchService]
-    }).compileComponents();
+    })
+    .compileComponents();
   }));
-  it('should create the app', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  }));
-  it(`should have as title 'app'`, async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('app');
-  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(SearchComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('search after Javascript', () => {
+    const value = 'Javascript';
+  });
 });

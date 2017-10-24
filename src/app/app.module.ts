@@ -1,3 +1,4 @@
+import { FirebaseService } from './search/firestore.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GithubSearchService } from './search/github.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -41,6 +42,11 @@ import { AppComponent } from './app.component';
 import { SearchComponent } from './search/search.component';
 import { ReactiveFormsModule} from '@angular/forms';
 
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { environment } from '../environments/environment';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -82,12 +88,14 @@ import { ReactiveFormsModule} from '@angular/forms';
     MatStepperModule,
     MatTabsModule,
     MatToolbarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule
   ],
   entryComponents: [
     SearchComponent
   ],
-  providers: [GithubSearchService],
+  providers: [GithubSearchService, FirebaseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

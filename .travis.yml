@@ -21,7 +21,11 @@ before_script:
 script: 
   - yarn test
   - yarn build:prod 
+
+before_script:
   - yarn install:server
+ 
+script:
   - yarn build:server
 
 before_deploy:
