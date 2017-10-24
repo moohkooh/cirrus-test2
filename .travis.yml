@@ -45,7 +45,7 @@ deploy:
     api_key: $HEROKU_API_KEY_BRANCH_MATERIAL
     app:  'mooh-angular-material'
     on: 
-      branch: 'material-design'
+      branch: 'angular-firebase'
     skip_cleanup: true
 
 notification: 
