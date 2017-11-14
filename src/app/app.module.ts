@@ -1,4 +1,4 @@
-import { FirebaseService } from './search/firestore.service';
+// import { FirebaseService } from './search/firestore.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GithubSearchService } from './search/github.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -95,7 +95,7 @@ import { environment } from '../environments/environment';
   entryComponents: [
     SearchComponent
   ],
-  providers: [GithubSearchService, FirebaseService],
+  providers: [GithubSearchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
