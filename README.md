@@ -8,3 +8,7 @@ Simple Angular 4 Applicaton with Travis and Heroku configuration.
 
 ## Angular
 This is a simple Angular 4 application build via angular cli. This app include one component *search.component* and a server *githaub.service.
+
+
+
+Made with Love <3
