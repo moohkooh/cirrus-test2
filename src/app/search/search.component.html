@@ -10,14 +10,14 @@
         </mat-form-field>
 
         <button mat-raised-button *ngIf='searched && (searchObserver | async)?.length == 0 ' href='#' (click)='addValue(searchInput.value)'
-          style='text-decoration:none;'>Hinzufügen</button>
+          style='text-decoration:none;'>Add</button>
 
         <div *ngIf='foundIndex >= 0'>
-          <a href='#' mat-raised-button (click)='save()'>Speicher </a> |
-          <a href='#' mat-raised-button (click)='abort()'>Abbrechen </a>
+          <a href='#' mat-raised-button (click)='save()'>Save </a> |
+          <a href='#' mat-raised-button (click)='abort()'>Abort </a>
         </div>
 
-        <mat-checkbox type="checkbox" (change)="searchInGithub = !searchInGithub" formControlName='searchInGithub'> Search in Githab</mat-checkbox>
+        <mat-checkbox type="checkbox" (change)="searchInGithub = !searchInGithub" formControlName='searchInGithub'> Search in Github</mat-checkbox>
       </mat-card-content>
       <mat-card-content>
         <mat-progress-bar *ngIf="searchInProgress$ | async" mode="indeterminate"></mat-progress-bar>
